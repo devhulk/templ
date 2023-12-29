@@ -1,0 +1,23 @@
+package main
+
+templ hello(name string) {
+	<div hx-get="/print" hx-trigger="mouseenter" hx-push-url="true">Hello, { name } </div>
+}
+
+templ POSTPrint() {
+	<button hx-post="/print" hx-trigger="click">POST Request</button>
+}
+
+templ root(name string) {
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		@hello(name)
+		@POSTPrint()
+	</body>
+</html>
+}
+
