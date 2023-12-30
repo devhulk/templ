@@ -1,0 +1,101 @@
+package main
+
+import "fmt"
+
+templ NoImageOption(key string) {
+        <div class="square" style="background-color: #111;"><p class="center"><b>{ key }</b></p></div>
+
+}
+
+templ ImageOption(item string) {
+        <div hx-get="/addToTier" class="square"><img src={ fmt.Sprintf("%v%v", "/static/", item) }></img></div>
+
+}
+
+templ renderOptions(options *map[string]string) {
+      for key, item := range *options {
+            if item == "" {
+                @NoImageOption(key)
+            
+            } else {
+                @ImageOption(item)
+            }
+
+        }
+}
+
+templ tier(name string) {
+    <div class="square" ><p class="center"><b>{ name }</b></p></div>
+
+}
+
+templ TierList(tiers *map[string][]string, options *map[string]string) {
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous"/>
+<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+<style>
+.square {
+  height: 100px;
+  width: 100px;
+  text-align: center;  
+  position: relative;
+  border-style: solid;
+  border-width: 0.5px;
+}
+
+.square img {
+   height: 100%;
+   width: 100%;
+}
+.square p {
+	color: white;
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.outer {
+  width: 100%;
+  height: 100%;
+}
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+  border-style: solid;
+  border-width: 0.15px;
+}
+</style>
+</head>
+<body>
+<div class="outer">
+	<div class="flex-container" style="background-color: #555;">
+        @tier("S Tier")
+	</div>
+	<div class="flex-container" style="background-color: #544;">
+        @tier("Very Useful")
+	</div>
+	<div class="flex-container" style="background-color: #533;">
+        @tier("Average")
+	</div>
+	<div class="flex-container" style="background-color: #522;">
+        @tier("Bupkis")
+	</div>
+	<div class="flex-container" style="background-color: #511;">
+        @tier("Dog Water")
+	</div>
+	<div class="flex-container">
+        @renderOptions(options)
+    </div>
+</div>
+
+</body>
+</html> 
+}

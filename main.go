@@ -7,23 +7,36 @@ import (
 	"github.com/a-h/templ"
 )
 
-func HandlePrint(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
-		fmt.Println("This is a GET request")
-		w.Write([]byte("This is a GET request."))
-	} else if r.Method == "POST" {
-		fmt.Println("This is a POST request.")
-		w.Write(Sum(1, 2))
-	}
+var options = &map[string]string{
+	"C":          "c.png",
+	"Golang":     "golang.png",
+	"Python":     "python.png",
+	"Java":       "java.png",
+	"C++":        "cpp.png",
+	"C#":         "csharp.png",
+	"Haskell":    "haskell.png",
+	"Zig":        "zig.png",
+	"Rust":       "rust.png",
+	"Javascript": "js.png",
+}
+
+var tiers = &map[string][]string{
+	"S Tier":      []string{},
+	"Very Useful": []string{},
+	"Average":     []string{},
+	"Bupkis":      []string{},
+	"Dog Water":   []string{},
 }
 
 func main() {
-	component := hello("John")
 	componentTwo := root("Gerald")
+	tierList := TierList(tiers, options)
 
 	http.Handle("/", templ.Handler(componentTwo))
-	http.Handle("/hello", templ.Handler(component))
+	http.Handle("/tier", templ.Handler(tierList))
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("img"))))
 	http.HandleFunc("/print", HandlePrint)
+	http.HandleFunc("/addToTier", AddToTier)
 
 	fmt.Println("Listening on port 3333")
 	http.ListenAndServe(":3333", nil)

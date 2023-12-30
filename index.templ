@@ -1,0 +1,65 @@
+package main
+
+templ hello(name string) {
+	<div hx-get="/print" hx-trigger="mouseenter" hx-push-url="false">Hello, { name } </div>
+}
+
+templ nav() {
+	<ul>
+		<li><a hx-get="/Golang">Golang</a></li>
+		<li><a hx-get="/Python">Python</a></li>	
+		<li><a hx-get="/Javascript">Javascript</a></li>
+		<li><a hx-get="/C">C</a></li>
+	</ul>
+}
+
+templ POSTPrint() {
+	<button class="pure-button pure-button-primary" hx-post="/print" hx-trigger="click">POST Request</button>
+}
+
+
+templ root(name string) {
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous"/>
+		<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+	</head>
+	<style>
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			width: 100px;
+			background-color: #333;
+		}
+
+		li a {
+			display: block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			height: 100px
+			text-decoration: none;
+		}
+
+		li a:hover {
+			background-color: #111;
+		}
+		.rectangle {
+			height: 100px;
+			width: 100px;
+			background-color: #555;
+		}
+	</style>
+	<header>
+		//@nav()
+	</header>
+	<body>
+		@POSTPrint()
+	</body>
+</html>
+}
+
+
+
