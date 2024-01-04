@@ -1,6 +1,7 @@
-package main
+package components
 
 import "fmt"
+import "templofknor.com/services"
 
 templ NoImageOption(key string) {
         <div class="square" style="background-color: #111;"><p class="center"><b>{ key }</b></p></div>
@@ -8,7 +9,7 @@ templ NoImageOption(key string) {
 }
 
 templ ImageOption(item string) {
-        <div hx-get="/addToTier" class="square"><img src={ fmt.Sprintf("%v%v", "/static/", item) }></img></div>
+        <div hx-get="/addToTier" id={item} class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", item) }></img></div>
 
 }
 
@@ -24,76 +25,40 @@ templ renderOptions(options *map[string]string) {
         }
 }
 
-templ tier(name string) {
+templ tier(name string, tiers *services.Tiers) {
     <div class="square" ><p class="center"><b>{ name }</b></p></div>
 
 }
 
-templ TierList(tiers *map[string][]string, options *map[string]string) {
+templ TierList(tiers *services.Tiers, options *map[string]string) {
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous"/>
+<link rel="stylesheet" href={fmt.Sprintf("%v%v", "/static/css/", "main.css")} />
 <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
-<style>
-.square {
-  height: 100px;
-  width: 100px;
-  text-align: center;  
-  position: relative;
-  border-style: solid;
-  border-width: 0.5px;
-}
-
-.square img {
-   height: 100%;
-   width: 100%;
-}
-.square p {
-	color: white;
-}
-
-.center {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-.outer {
-  width: 100%;
-  height: 100%;
-}
-.flex-container {
-  display: flex;
-  flex-wrap: nowrap;
-  border-style: solid;
-  border-width: 0.15px;
-}
-</style>
 </head>
 <body>
 <div class="outer">
 	<div class="flex-container" style="background-color: #555;">
-        @tier("S Tier")
+        @tier("S Tier", tiers)
 	</div>
 	<div class="flex-container" style="background-color: #544;">
-        @tier("Very Useful")
+        @tier("Very Useful", tiers)
 	</div>
 	<div class="flex-container" style="background-color: #533;">
-        @tier("Average")
+        @tier("Average", tiers)
 	</div>
 	<div class="flex-container" style="background-color: #522;">
-        @tier("Bupkis")
+        @tier("Bupkis", tiers)
 	</div>
 	<div class="flex-container" style="background-color: #511;">
-        @tier("Dog Water")
+        @tier("Dog Water", tiers)
 	</div>
 	<div class="flex-container">
         @renderOptions(options)
-    </div>
+        </div>
 </div>
 
 </body>
