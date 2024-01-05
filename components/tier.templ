@@ -13,16 +13,20 @@ templ ImageOption(item string) {
 
 }
 
-templ renderOptions(options *map[string]string) {
-      for key, item := range *options {
-            if item == "" {
-                @NoImageOption(key)
-            
-            } else {
-                @ImageOption(item)
-            }
+templ Options(options *map[string]string) {
+	<div class="flex-container">
+                <div hx-get="/addToTier" id="c.png" class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", "c.png") }></img></div>
+                <div hx-get="/addToTier" id="golang.png" class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", "golang.png") }></img></div>
+                <div hx-get="/addToTier" id="python.png" class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", "python.png") }></img></div>
+                <div hx-get="/addToTier" id="java.png" class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", "java.png") }></img></div>
+                <div hx-get="/addToTier" id="cpp.png" class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", "cpp.png") }></img></div>
+                <div hx-get="/addToTier" id="csharp.png" class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", "csharp.png") }></img></div>
+                <div hx-get="/addToTier" id="haskell.png" class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", "haskell.png") }></img></div>
+                <div hx-get="/addToTier" id="zig.png" class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", "zig.png") }></img></div>
+                <div hx-get="/addToTier" id="rust.png" class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", "rust.png") }></img></div>
+                <div hx-get="/addToTier" id="js.png" class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", "js.png") }></img></div>
 
-        }
+        </div>
 }
 
 templ tier(name string, tiers *services.Tiers) {
@@ -30,9 +34,75 @@ templ tier(name string, tiers *services.Tiers) {
 
 }
 
+templ RenderSTier(tiers *services.Tiers) {
+      for _, item := range tiers.STier {
+                <div class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", item.Location) }></img></div>
+
+        }
+
+}
+
+templ renderVeryUseful(tiers *services.Tiers) {
+      for _, item := range tiers.VeryUseful {
+                <div class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", item.Location) }></img></div>
+
+        }
+
+}
+
+templ renderAverage(tiers *services.Tiers) {
+      for _, item := range tiers.Average {
+                <div class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", item.Location) }></img></div>
+
+        }
+
+}
+
+templ renderBupkis(tiers *services.Tiers) {
+      for _, item := range tiers.Bupkis {
+                <div class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", item.Location) }></img></div>
+
+        }
+
+}
+
+templ renderDogWater(tiers *services.Tiers) {
+      for _, item := range tiers.DogWater {
+                <div class="square"><img src={ fmt.Sprintf("%v%v", "/static/images/", item.Location) }></img></div>
+
+        }
+
+}
+
 templ TierList(tiers *services.Tiers, options *map[string]string) {
+        <div >
+                <div class="flex-container" style="background-color: #555;" >
+                        @tier("S Tier", tiers)
+                        @RenderSTier(tiers)
+                </div>
+                <div class="flex-container" style="background-color: #544;">
+                        @tier("Very Useful", tiers)
+                        @renderVeryUseful(tiers)
+                </div>
+                <div class="flex-container" style="background-color: #533;">
+                        @tier("Average", tiers)
+                        @renderAverage(tiers)
+                </div>
+                <div class="flex-container" style="background-color: #522;">
+                        @tier("Bupkis", tiers)
+                        @renderBupkis(tiers)
+                </div>
+                <div class="flex-container" style="background-color: #511;">
+                        @tier("Dog Water", tiers)
+                        @renderDogWater(tiers)
+                </div>
+        </div>
+
+}
+
+templ HomePage(tiers *services.Tiers, options *map[string]string) {
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous"/>
@@ -41,25 +111,12 @@ templ TierList(tiers *services.Tiers, options *map[string]string) {
 </head>
 <body>
 <div class="outer">
-	<div class="flex-container" style="background-color: #555;">
-        @tier("S Tier", tiers)
-	</div>
-	<div class="flex-container" style="background-color: #544;">
-        @tier("Very Useful", tiers)
-	</div>
-	<div class="flex-container" style="background-color: #533;">
-        @tier("Average", tiers)
-	</div>
-	<div class="flex-container" style="background-color: #522;">
-        @tier("Bupkis", tiers)
-	</div>
-	<div class="flex-container" style="background-color: #511;">
-        @tier("Dog Water", tiers)
-	</div>
-	<div class="flex-container">
-        @renderOptions(options)
+        <div>
+                @TierList(tiers, options)
         </div>
+
 </div>
+        @Options(options)
 
 </body>
 </html> 

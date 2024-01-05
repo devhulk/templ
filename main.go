@@ -13,11 +13,12 @@ import (
 func main() {
 	//componentTwo := root("Gerald")
 	t := services.MyTier
-	tierList := components.TierList(t, &t.Options)
+	HomePage := components.HomePage(t, &t.Options)
 
 	//http.Handle("/", templ.Handler(componentTwo))
-	http.Handle("/", templ.Handler(tierList))
+	http.Handle("/", templ.Handler(HomePage))
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("assets"))))
+	http.HandleFunc("/refresh", handlers.Refresh)
 	http.HandleFunc("/print", handlers.HandlePrint)
 	http.HandleFunc("/addToTier", handlers.AddToTier)
 

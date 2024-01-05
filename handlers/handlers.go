@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/a-h/templ"
+	"templofknor.com/components"
 	"templofknor.com/services"
 )
 
@@ -14,6 +16,15 @@ func HandlePrint(w http.ResponseWriter, r *http.Request) {
 	} else if r.Method == "POST" {
 		fmt.Println("This is a POST request.")
 		w.Write(Sum(1, 2))
+	}
+}
+
+func Refresh(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+		c := components.TierList(services.MyTier, &services.MyTier.Options)
+		templ.Handler(c)
+	} else if r.Method == "POST" {
+		fmt.Println("Do a GET.")
 	}
 }
 
@@ -45,6 +56,8 @@ func AddToTier(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(st)
 		case "haskell.png":
 			fmt.Println("Average")
+			*av = append(*av, services.TierItem{Location: "haskell.png"})
+			fmt.Println(av)
 		case "java.png":
 			fmt.Println("Dog Water")
 			*dw = append(*dw, services.TierItem{Location: "java.png"})
@@ -55,8 +68,16 @@ func AddToTier(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(bp)
 		case "zig.png":
 			fmt.Println("Average")
-			*av = append(*dw, services.TierItem{Location: "rust.png"})
+			*av = append(*av, services.TierItem{Location: "zig.png"})
 			fmt.Println(av)
+		case "python.png":
+			fmt.Println("Average")
+			*av = append(*av, services.TierItem{Location: "python.png"})
+			fmt.Println(av)
+		case "js.png":
+			fmt.Println("Dog Water")
+			*dw = append(*dw, services.TierItem{Location: "js.png"})
+			fmt.Println(dw)
 		default:
 			fmt.Println("Average")
 
